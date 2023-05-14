@@ -1,0 +1,72 @@
+#include <iostream>
+#include <vector>
+#include <cmath>
+
+struct Point {
+    double x, y, z;
+};
+
+double calculateDistance(const Point& p1, const Point& p2) {
+    double dx = p2.x - p1.x;
+    double dy = p2.y - p1.y;
+    double dz = p2.z - p1.z;
+    return std::sqrt(dx * dx + dy * dy + dz * dz);
+}
+
+double findMinimumDistance(const std::vector<Point>& points) {
+    double min_distance = std::numeric_limits<double>::max();
+    for (size_t i = 0; i < points.size(); ++i) {
+        for (size_t j = i + 1; j < points.size(); ++j) {
+            double distance = calculateDistance(points[i], points[j]);
+            if (distance < min_distance) {
+                min_distance = distance;
+            }
+        }
+    }
+    return min_distance;
+}
+
+double findMaximumDistance(const std::vector<Point>& points) {
+    double max_distance = 0.0;
+    for (size_t i = 0; i < points.size(); ++i) {
+        for (size_t j = i + 1; j < points.size(); ++j) {
+            double distance = calculateDistance(points[i], points[j]);
+            if (distance > max_distance) {
+                max_distance = distance;
+            }
+        }
+    }
+    return max_distance;
+}
+
+double findAverageDistance(const std::vector<Point>& points) {
+    double sum_distance = 0.0;
+    size_t count = 0;
+    for (size_t i = 0; i < points.size(); ++i) {
+        for (size_t j = i + 1; j < points.size(); ++j) {
+            double distance = calculateDistance(points[i], points[j]);
+            sum_distance += distance;
+            count++;
+        }
+    }
+    return sum_distance / count;
+}
+
+int main() {
+    std::vector<Point> points = {
+        {1.0, 2.0, 3.0},
+        {4.0, 5.0, 6.0},
+        {7.0, 8.0, 9.0}
+        
+    };
+
+    double min_distance = findMinimumDistance(points);
+    double max_distance = findMaximumDistance(points);
+    double average_distance = findAverageDistance(points);
+
+    std::cout << "Minimum distance: " << min_distance << std::endl;
+    std::cout << "Maximum distance: " << max_distance << std::endl;
+    std::cout << "Average distance: " << average_distance << std::endl;
+
+    return 0;
+}
